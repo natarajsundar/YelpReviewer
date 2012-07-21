@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  *
  * @author nataraj
  */
-public class DataReader1 {
+public class YelpReviewGenerator {
 
     ArrayList<ReviewData> reviewWords;
     public String[] queryWords;
@@ -35,7 +35,7 @@ public class DataReader1 {
     public static final String startHighlight = "[[HIGHLIGHT]]";
     public static final String endHighlight = "[[ENDHIGHLIGHT]]";
 
-    public DataReader1() {
+    public YelpReviewGenerator() {
         dr = new DataReader();
         review = dr.getReviewsearch().review;
         search = dr.getReviewsearch().searchterm;
@@ -45,7 +45,7 @@ public class DataReader1 {
 
     // puts all the pieces together
     public String returnReviewSummary() {
-        DataReader1 r1 = new DataReader1();
+        YelpReviewGenerator review1 = new YelpReviewGenerator();
         parseReviewText();
         parseQuery();
         return findLevelOfMatchForReviewWords();
@@ -55,7 +55,7 @@ public class DataReader1 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Summary " + new DataReader1().returnReviewSummary());
+        System.out.println("Summary " + new YelpReviewGenerator().returnReviewSummary());
     }
 
     public void parseReviewText() {
@@ -78,21 +78,24 @@ public class DataReader1 {
             Matcher matcher = queryPattern.matcher(reviewLine.getReviewLine());
             if (matcher.matches()) {
                 int pos = matcher.start();
+                highlightSearchWord(reviewLine.getReviewLine(),search);
                 reviewLine.setReviewLine(resizeReviewLineToCharLimit(reviewLine.getReviewLine(), pos, search.length(), charLimit));
-                reviewLine.setReviewLine(reviewLine.getReviewLine().replaceAll(search, startHighlight + search + endHighlight));
+                reviewLine.setReviewLine(highlightSearchWord(reviewLine.getReviewLine(),search));
                 reviewLine.setMatch(queryWords.length);
-                //break;
-            } else {
+               
+            } 
+            else 
+            {
                 //count the no of matches, store pos of lookup in HashMap, set the match level to no of matches for the review line  
                 HashMap<String, Integer> searchMap = new HashMap<String, Integer>();
                 for (int i = 0; i < queryWords.length; i++) {
                     String searchWord = queryWords[i];
-                    int index = reviewLine.getReviewLine().indexOf(searchWord);
+                    int index = reviewLine.getReviewLine().toLowerCase().indexOf(searchWord.toLowerCase());
                     if (index > -1) {
                         searchMap.put(searchWord, index);
 
                         //Highlight the search word.
-                        reviewLine.setReviewLine((reviewLine.getReviewLine().replaceAll("(?i)" + queryWords[i], startHighlight + queryWords[i] + endHighlight)));
+                        reviewLine.setReviewLine(highlightSearchWord(reviewLine.getReviewLine(),searchWord));
                     }
 
                 }
@@ -101,7 +104,7 @@ public class DataReader1 {
 
         }
 
-        // sort the collection based on the no of matches
+        // sort the collection based on the no of matches in descending order
         Collections.sort(reviewWords, new ReviewDataComparator());
 
         reviewSummary = "";
@@ -112,7 +115,7 @@ public class DataReader1 {
             }
 
         }
-
+        reviewSummary = reviewSummary.replaceAll("\\[\\[ENDHIGHLIGHT\\]\\] \\[\\[HIGHLIGHT\\]\\]", " ");
         return reviewSummary;
     }
 
@@ -144,15 +147,11 @@ public class DataReader1 {
         StringBuffer sb = new StringBuffer();
 
         while (m.find()) {
-            String replacement = m.group().replace(' ', '~');
+            String replacement = m.group().replace(m.group(), startHighlight+m.group()+endHighlight);
             m.appendReplacement(sb, Matcher.quoteReplacement(replacement));
         }
         m.appendTail(sb);
 
-        String outText = sb.toString();
-
-        System.out.println(outText);
-        
-        return outText;
+        return sb.toString();
     }
 }

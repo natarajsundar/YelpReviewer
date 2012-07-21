@@ -47,7 +47,7 @@ class ReviewDataComparator implements Comparator<ReviewData>
         
         ReviewData r1 =  o1;
         ReviewData r2 =  o2;
-        return (r1.getMatch() == r2.getMatch() ? 0 : (r1.getMatch() > r2.getMatch() ? 1 : -1)) ;
+        return (r1.getMatch() == r2.getMatch() ? 0 : (r1.getMatch() > r2.getMatch() ? -1 : 1)) ;
     }
     
 }
