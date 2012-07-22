@@ -16,7 +16,7 @@ public class YelpReviewGenerator {
     /**
      * Stores parsed out lines from the review
      */
-    ArrayList<ReviewData> linesInReview;
+    ArrayList<ReviewUnit> linesInReview;
    /**
      * Stores parsed out words from the search query
      */
@@ -105,13 +105,13 @@ public class YelpReviewGenerator {
     }
 
     /**
+     *  Main() function to make the project executable, contains a couple of samples.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         DataReader drmain = new DataReader();
         System.out.println("Review Summary : " + new YelpReviewGenerator().highlight_doc(drmain.getReviewSearch().review, drmain.getReviewSearch().searchterm));
-        //(highlight_doc("I like fish. Little star's deep dish pizza sure is fantastic.Dogs are funny.", "deep dish pizza") != null)
-        //System.out.println("Review Summary : " + new YelpReviewGenerator().highlight_doc("I like fish. Little star's deep dish pizza sure is fantastic.Dogs are funny.", "deep dish pizza"));
+        //System.out.println("Review Summary : " + new YelpReviewGenerator().highlight_doc("I like fish. Little star's deep dish pizza sure is fantastic. Dogs are funny.", "deep dish pizza"));
     }
 
     /**
@@ -119,10 +119,10 @@ public class YelpReviewGenerator {
      */
     public void parseReviewText() {
         String[] splits = review.split("[-;!?\\.]");
-        linesInReview = new ArrayList<ReviewData>();
+        linesInReview = new ArrayList<ReviewUnit>();
 
         for (int i = 0; i < splits.length; i++) {
-            linesInReview.add(new ReviewData(splits[i].trim()));
+            linesInReview.add(new ReviewUnit(splits[i].trim()));
         }
     }
 
@@ -143,7 +143,7 @@ public class YelpReviewGenerator {
      * @return Review Summary
      */
     public String matchReviewWordsReturnSummary() {
-        for (ReviewData reviewLine : linesInReview) {
+        for (ReviewUnit reviewLine : linesInReview) {
             //check if the review is a perfect match
             Matcher matcher = queryPattern.matcher(reviewLine.getReviewLine());
             if (matcher.matches()) {
@@ -177,7 +177,7 @@ public class YelpReviewGenerator {
 
         reviewSummary = "";
         //prepare the summary by appendin the sorted lines which have words from the query
-        for (ReviewData reviewLine : linesInReview) {
+        for (ReviewUnit reviewLine : linesInReview) {
             if (reviewLine.getMatch() > 0 && !reviewLine.getReviewLine().isEmpty()) {
                 reviewSummary += reviewLine.getReviewLine() + " ";
             }

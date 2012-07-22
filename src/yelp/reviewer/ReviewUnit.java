@@ -6,16 +6,17 @@ package yelp.reviewer;
 
 import java.util.Comparator;
 
+
 /**
- *
+ * Represents a single line parsed from the review, also contains a field called match which indicates the level of match.
  * @author nataraj
  */
-public class ReviewData 
+public class ReviewUnit 
 {
     String reviewLine;
     int match;
 
-    ReviewData(String text) 
+    ReviewUnit(String text) 
     {
         this.reviewLine=text;
         match=0;
@@ -38,15 +39,14 @@ public class ReviewData
     }
     
 }
-
-class ReviewDataComparator implements Comparator<ReviewData> 
+class ReviewDataComparator implements Comparator<ReviewUnit> 
 {
     @Override
-    public int compare(ReviewData o1, ReviewData o2) 
+    public int compare(ReviewUnit o1, ReviewUnit o2) 
     {
         
-        ReviewData r1 =  o1;
-        ReviewData r2 =  o2;
+        ReviewUnit r1 =  o1;
+        ReviewUnit r2 =  o2;
         return (r1.getMatch() == r2.getMatch() ? 0 : (r1.getMatch() > r2.getMatch() ? -1 : 1)) ;
     }
     

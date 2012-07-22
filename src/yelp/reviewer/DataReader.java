@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Reads review and search inputs from properties file.
  * @author nataraj
  */
 public class DataReader {
