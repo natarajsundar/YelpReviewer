@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * The main class, contains the functional part which matches and returns review summary with highlights.  
  * @author nataraj
  */
 public class YelpReviewGenerator {
@@ -109,7 +109,7 @@ public class YelpReviewGenerator {
      */
     public static void main(String[] args) {
         DataReader drmain = new DataReader();
-        System.out.println("Review Summary : " + new YelpReviewGenerator().highlight_doc(drmain.getReviewsearch().review, drmain.getReviewsearch().searchterm));
+        System.out.println("Review Summary : " + new YelpReviewGenerator().highlight_doc(drmain.getReviewSearch().review, drmain.getReviewSearch().searchterm));
         //(highlight_doc("I like fish. Little star's deep dish pizza sure is fantastic.Dogs are funny.", "deep dish pizza") != null)
         //System.out.println("Review Summary : " + new YelpReviewGenerator().highlight_doc("I like fish. Little star's deep dish pizza sure is fantastic.Dogs are funny.", "deep dish pizza"));
     }

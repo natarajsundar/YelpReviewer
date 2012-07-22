@@ -5,7 +5,7 @@
 package yelp.reviewer;
 
 /**
- *
+ *Input object to store the review and the search params.
  * @author nataraj
  */
 public class Input 

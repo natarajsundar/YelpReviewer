@@ -4,12 +4,7 @@
  */
 package yelp.reviewer;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +18,11 @@ public class DataReader {
     Properties prop = new Properties();
     Input reviewsearch ;
 
-    public Input getReviewsearch() {
+    /**
+     * 
+     * @return Input object with review and search fields set.
+     */
+    public Input getReviewSearch() {
         return reviewsearch;
     }
     DataReader() {
