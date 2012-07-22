@@ -110,6 +110,8 @@ public class YelpReviewGenerator {
      */
     public static void main(String[] args) {
         DataReader drmain = new DataReader();
+        System.out.println("Review : "+drmain.reviewsearch.getReview());
+        System.out.println("Search Term : "+drmain.reviewsearch.getSearchterm());
         System.out.println("Review Summary : " + new YelpReviewGenerator().highlight_doc(drmain.getReviewSearch().review, drmain.getReviewSearch().searchterm));
         //System.out.println("Review Summary : " + new YelpReviewGenerator().highlight_doc("I like fish. Little star's deep dish pizza sure is fantastic. Dogs are funny.", "deep dish pizza"));
     }
